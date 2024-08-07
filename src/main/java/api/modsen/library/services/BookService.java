@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static api.modsen.library.config.LibraryAppConstants.BOOK_NOT_FOUND_MESSAGE_WITH_ID;
+import static api.modsen.library.config.LibraryAppConstants.BOOK_NOT_FOUND_MESSAGE_WITH_ISBN;
+
 @Service
 @Transactional
 public class BookService {
@@ -25,11 +28,11 @@ public class BookService {
     }
 
     public Book findBookById(long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with id:" + id));
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
     }
 
     public Book findBookByIsbn(String isbn) {
-        return bookRepository.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException("Book not found with isbn:" + isbn));
+        return bookRepository.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ISBN + isbn));
     }
 
     public Book addBook(BookDto bookDto) {
@@ -58,6 +61,6 @@ public class BookService {
             return bookRepository.save(updatingBook);
         }
 
-        return bookFromDb.orElseThrow(() -> new BookNotFoundException("Book not found with id:" + id));
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
     }
 }

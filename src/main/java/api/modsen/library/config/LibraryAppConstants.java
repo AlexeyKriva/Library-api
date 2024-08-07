@@ -11,4 +11,7 @@ public class LibraryAppConstants {
     public static final short MAX_LENGTH_OF_BOOK_TITLE = 50;
     public static final short MAX_LENGTH_OF_BOOK_DESCRIPTION = 1000;
     public static final short MAX_LENGTH_OF_BOOK_GENRE_AND_AUTHOR = 255;
+    public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ID = "Book not found with id:";
+    public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ISBN = "Book not found with isbn:";
+
 }
