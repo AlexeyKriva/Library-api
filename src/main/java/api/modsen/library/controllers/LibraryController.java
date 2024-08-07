@@ -28,11 +28,11 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findAvailableBooks());
     }
 
-    @GetMapping("/available-books-statuses/by-borrowed-time")
-    public ResponseEntity<List<BookStatus>> getAvailableBooksStatusesByBorrowedTime(@Valid
-                                                                                        @RequestParam
-                                                                                    LocalDateTime dateTime) {
-        return ResponseEntity.ok(new ArrayList<>());
+    @GetMapping("/available-books-statuses/by-specified-time")
+    public ResponseEntity<List<BookStatus>> getAvailableBooksStatusesBySpecifiedTime(@Valid
+                                                                                        @RequestParam("specifiedTime")
+                                                                                    LocalDateTime specifiedTime) {
+        return ResponseEntity.ok(libraryService.findAvailableBooksBySpecifiedTime(specifiedTime));
     }
 
     @PatchMapping("/change-book-status/{bookId}")

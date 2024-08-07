@@ -67,10 +67,26 @@ public class LibraryService {
         return availableBooks;
     }
 
-
     public boolean isBookAvailable(BookStatus bookStatus) {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(bookStatus.getReturnAt());
+    }
+
+    public List<BookStatus> findAvailableBooksBySpecifiedTime(LocalDateTime specifiedTime) {
+        List<BookStatus> availableBooks = new ArrayList<>();
+        List<BookStatus> bookStatuses = bookStatusRepository.findAll();
+
+        for (BookStatus bookStatus: bookStatuses) {
+            if (isBookAvailableBySpecifiedTime(bookStatus, specifiedTime)) {
+                availableBooks.add(bookStatus);
+            }
+        }
+
+        return availableBooks;
+    }
+
+    public boolean isBookAvailableBySpecifiedTime(BookStatus bookStatus, LocalDateTime specifiedTime) {
+        return specifiedTime.isAfter(bookStatus.getReturnAt());
     }
 
     public BookStatus changeBookStatus(long bookId, BookStatusDto bookStatusDto) {
