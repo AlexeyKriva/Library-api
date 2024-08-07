@@ -7,9 +7,10 @@ import lombok.*;
 
 @Setter
 @Getter
+@ToString
 public class BookDto {
     @JsonProperty("isbn")
-    @Pattern(regexp = "^(?:978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d$\n", message = "Invalid isbn format")
+    @Pattern(regexp = "^(?:978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d$", message = "Invalid isbn format")
     private String isbn;
     @JsonProperty("title")
     @NotBlank(message = "Title cannot be blank")
