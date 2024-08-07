@@ -1,4 +1,4 @@
-package api.modsen.library.entities;
+package api.modsen.library.entities.book;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

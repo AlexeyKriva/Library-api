@@ -1,4 +1,4 @@
-package api.modsen.library.entities;
+package api.modsen.library.entities.book;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

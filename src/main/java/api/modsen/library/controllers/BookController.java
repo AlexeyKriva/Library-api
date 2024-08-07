@@ -1,9 +1,8 @@
 package api.modsen.library.controllers;
 
-import api.modsen.library.entities.Book;
-import api.modsen.library.entities.BookDto;
-import api.modsen.library.entities.BookMapper;
-import api.modsen.library.entities.BookUpdateDescriptionDto;
+import api.modsen.library.entities.book.Book;
+import api.modsen.library.entities.book.BookDto;
+import api.modsen.library.entities.book.BookUpdateDescriptionDto;
 import api.modsen.library.services.BookService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;

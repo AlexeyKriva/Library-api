@@ -1,9 +1,9 @@
 package api.modsen.library.services;
 
-import api.modsen.library.entities.Book;
-import api.modsen.library.entities.BookDto;
-import api.modsen.library.entities.BookMapper;
-import api.modsen.library.entities.BookUpdateDescriptionDto;
+import api.modsen.library.entities.book.Book;
+import api.modsen.library.entities.book.BookDto;
+import api.modsen.library.entities.book.BookMapper;
+import api.modsen.library.entities.book.BookUpdateDescriptionDto;
 import api.modsen.library.exceptions.BookNotFoundException;
 import api.modsen.library.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;

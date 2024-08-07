@@ -1,4 +1,4 @@
-package api.modsen.library.entities;
+package api.modsen.library.entities.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
