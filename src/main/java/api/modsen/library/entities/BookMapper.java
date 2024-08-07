@@ -13,5 +13,6 @@ public interface BookMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "author", target = "author")
     Book fromBookDtoToBook(BookDto bookDto);
+    @Mapping(source = "description", target = "description")
     Book fromBookUpdateInformationDto(BookUpdateDescriptionDto bookUpdateInformationDto);
 }
