@@ -1,7 +1,6 @@
 package api.modsen.library.controllers;
 
 import api.modsen.library.entities.library.BookStatus;
-import api.modsen.library.entities.library.BookStatusBorrowedTimeDto;
 import api.modsen.library.entities.library.BookStatusDto;
 import api.modsen.library.services.LibraryService;
 import jakarta.validation.Valid;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +30,8 @@ public class LibraryController {
 
     @GetMapping("/available-books-statuses/by-borrowed-time")
     public ResponseEntity<List<BookStatus>> getAvailableBooksStatusesByBorrowedTime(@Valid
-                                                                                        @RequestBody
-                                                                                        BookStatusBorrowedTimeDto bookStatusBorrowedTimeDto) {
+                                                                                        @RequestParam
+                                                                                    LocalDateTime dateTime) {
         return ResponseEntity.ok(new ArrayList<>());
     }
 

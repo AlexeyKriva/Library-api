@@ -58,13 +58,11 @@ public class LibraryService {
         List<BookStatus> availableBooks = new ArrayList<>();
         List<BookStatus> bookStatuses = bookStatusRepository.findAll();
 
-
         for (BookStatus bookStatus: bookStatuses) {
             if (isBookAvailable(bookStatus)) {
                 availableBooks.add(bookStatus);
             }
         }
-
 
         return availableBooks;
     }

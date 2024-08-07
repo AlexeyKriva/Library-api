@@ -10,6 +10,4 @@ public interface BookStatusMapper {
     @Mapping(source = "borrowedAt", target = "borrowedAt")
     @Mapping(source = "returnAt", target = "returnAt")
     BookStatus fromBookStatusDtoToBookStatus(BookStatusDto bookStatusDto);
-    @Mapping(source = "borrowedAt", target = "borrowedAt")
-    BookStatus fromBookStatusBorrowedTimeDto(BookStatusBorrowedTimeDto bookStatusBorrowedTimeDto);
 }
