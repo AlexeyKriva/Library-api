@@ -3,6 +3,9 @@ package api.modsen.library.services;
 
 import api.modsen.library.entities.book.Book;
 import api.modsen.library.entities.library.BookStatus;
+import api.modsen.library.entities.library.BookStatusDto;
+import api.modsen.library.entities.library.BookStatusMapper;
+import api.modsen.library.exceptions.BookNotFoundException;
 import api.modsen.library.repositories.BookStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -12,19 +15,22 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 
-import static api.modsen.library.config.LibraryAppConstants.MAX_NUMBER_OF_DAYS_BORROW_BOOK;
+import static api.modsen.library.config.LibraryAppConstants.*;
 
 
 @Service
 public class LibraryService {
     @Autowired
     private BookStatusRepository bookStatusRepository;
-
-
+    private static final BookStatusMapper BOOK_STATUS_MAPPER = BookStatusMapper.INSTANCE;
+    public List<BookStatus> findAllBookStatuses() {
+        return bookStatusRepository.findAll();
+    }
     @Async
     public CompletableFuture<BookStatus> addBookStatus(Book book) {
         LocalDateTime borrowAt = LocalDateTime.now();
@@ -68,6 +74,17 @@ public class LibraryService {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(bookStatus.getReturnAt());
     }
+
+    public BookStatus changeBookStatus(long id, BookStatusDto bookStatusDto) {
+        Optional<BookStatus> bookStatusFromDb = bookStatusRepository.findById(id);
+        if (bookStatusFromDb.isPresent()) {
+            BookStatus bookStatus = bookStatusFromDb.get();
+            BookStatus updatedBookStatus = BOOK_STATUS_MAPPER.fromBookStatusDtoToBookStatus(bookStatusDto);
+            bookStatus.setBorrowedAt(updatedBookStatus.getBorrowedAt());
+            bookStatus.setReturnAt(updatedBookStatus.getReturnAt());
+            return bookStatusRepository.save(bookStatus);
+        }
+
+        return bookStatusFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID));
+    }
 }
-
-

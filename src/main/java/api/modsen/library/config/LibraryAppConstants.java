@@ -14,4 +14,5 @@ public class LibraryAppConstants {
     public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ID = "Book not found with id: ";
     public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ISBN = "Book not found with isbn: ";
     public static final int MAX_NUMBER_OF_DAYS_BORROW_BOOK = 30;
+    public static final String BORROWED_TIME_IN_FUTURE_MESSAGE = "Borrowed time cannot be in the future";
 }
