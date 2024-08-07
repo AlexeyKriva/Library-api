@@ -4,12 +4,15 @@ import api.modsen.library.entities.book.Book;
 import api.modsen.library.entities.book.BookDto;
 import api.modsen.library.entities.book.BookMapper;
 import api.modsen.library.entities.book.BookUpdateDescriptionDto;
+import api.modsen.library.entities.library.BookStatus;
 import api.modsen.library.exceptions.BookNotFoundException;
 import api.modsen.library.repositories.BookRepository;
+import api.modsen.library.repositories.BookStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,8 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
     private static final BookMapper BOOK_MAPPER = BookMapper.INSTANCE;
+    @Autowired
+    private LibraryService libraryService;
 
     public List<Book> findAllBooks() {
         return bookRepository.findAll();
@@ -36,8 +41,10 @@ public class BookService {
     }
 
     public Book addBook(BookDto bookDto) {
-        Book book = BOOK_MAPPER.fromBookDtoToBook(bookDto);
-        return bookRepository.save(book);
+        Book newBook = BOOK_MAPPER.fromBookDtoToBook(bookDto);
+        Book bookFromDb = bookRepository.save(newBook);
+        libraryService.addBookStatus(bookFromDb);
+        return bookFromDb;
     }
 
     public void deleteBookByIsbn(String isbn) {
