@@ -7,4 +7,5 @@ import org.mapstruct.factory.Mappers;
 public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
     Book fromBookDtoToBook(BookDto bookDto);
+    Book fromBookUpdateInformationDto(BookUpdateDescriptionDto bookUpdateInformationDto);
 }
