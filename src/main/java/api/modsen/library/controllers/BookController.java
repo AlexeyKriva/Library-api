@@ -2,11 +2,15 @@ package api.modsen.library.controllers;
 
 import api.modsen.library.entities.Book;
 import api.modsen.library.entities.BookDto;
+import api.modsen.library.entities.BookMapper;
 import api.modsen.library.entities.BookUpdateDescriptionDto;
 import api.modsen.library.services.BookService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static api.modsen.library.config.LibraryAppConstants.*;
 
 import java.util.List;
 
@@ -27,17 +31,22 @@ public class BookController {
     }
 
     @GetMapping("/book/by-isbn/{isbn}")
-    public ResponseEntity<Book> getBookByIsbn(@PathVariable("isbn") String isbn) {
+    public ResponseEntity<Book> getBookByIsbn(@Valid
+                                                  @PathVariable("isbn")
+                                                  @Pattern(regexp = ISBN_FORMAT,
+                                                          message = INVALID_ISBN_MESSAGE) String isbn) {
         return ResponseEntity.ok(bookService.findBookByIsbn(isbn));
     }
 
     @PostMapping("/add-book")
-    public ResponseEntity<Book> addBook(@RequestBody BookDto bookDto) {
+    public ResponseEntity<Book> addBook(@Valid
+                                            @RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookService.addBook(bookDto));
     }
 
     @PatchMapping("/update-book/{id}")
     public ResponseEntity<Book> updateBookById(@PathVariable("id") long id,
+                                               @Valid
                                                @RequestBody BookUpdateDescriptionDto bookUpdateDescriptionDto) {
         return ResponseEntity.ok(bookService.updateGenreAndDescription(id, bookUpdateDescriptionDto));
     }
@@ -49,7 +58,10 @@ public class BookController {
     }
 
     @DeleteMapping("/delete-book/by-isbn/{isbn}")
-    public ResponseEntity<Book> deleteBookByIsbn(@PathVariable("isbn") String isbn) {
+    public ResponseEntity<Book> deleteBookByIsbn(@Valid
+                                                     @PathVariable("isbn")
+                                                     @Pattern(regexp = ISBN_FORMAT,
+                                                             message = INVALID_ISBN_MESSAGE) String isbn) {
         bookService.deleteBookByIsbn(isbn);
         return ResponseEntity.noContent().build();
     }
