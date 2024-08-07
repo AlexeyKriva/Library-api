@@ -62,6 +62,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Spring boot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -72,6 +73,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>annotationProcessor</scope>
         </dependency>
     </dependencies>
 
