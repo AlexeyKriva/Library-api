@@ -9,6 +9,7 @@ import api.modsen.library.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,10 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
     private static final BookMapper BOOK_MAPPER = BookMapper.INSTANCE;
+
+    public List<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
 
     public Book findBookById(long id) {
         return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with id:" + id));
