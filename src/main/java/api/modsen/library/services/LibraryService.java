@@ -75,8 +75,8 @@ public class LibraryService {
         return now.isAfter(bookStatus.getReturnAt());
     }
 
-    public BookStatus changeBookStatus(long id, BookStatusDto bookStatusDto) {
-        Optional<BookStatus> bookStatusFromDb = bookStatusRepository.findById(id);
+    public BookStatus changeBookStatus(long bookId, BookStatusDto bookStatusDto) {
+        Optional<BookStatus> bookStatusFromDb = bookStatusRepository.findByBookId(bookId);
         if (bookStatusFromDb.isPresent()) {
             BookStatus bookStatus = bookStatusFromDb.get();
             BookStatus updatedBookStatus = BOOK_STATUS_MAPPER.fromBookStatusDtoToBookStatus(bookStatusDto);
@@ -85,6 +85,6 @@ public class LibraryService {
             return bookStatusRepository.save(bookStatus);
         }
 
-        return bookStatusFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID));
+        return bookStatusFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + bookId));
     }
 }
