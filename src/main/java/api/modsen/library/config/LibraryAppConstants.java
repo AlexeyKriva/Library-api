@@ -15,4 +15,9 @@ public class LibraryAppConstants {
     public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ISBN = "Book not found with isbn: ";
     public static final int MAX_NUMBER_OF_DAYS_BORROW_BOOK = 30;
     public static final String BORROWED_TIME_IN_FUTURE_MESSAGE = "Borrowed time cannot be in the future";
+    public static final String MISSING_PARAMETERS_MESSAGE = "Missing parameters: ";
+    public static final String INVALID_FORMAT_FOR_PARAMETER_MESSAGE = "Invalid format for parameter: ";
+    public static final String DATA_CANNOT_BE_EXTRACT = "Data cannot be extract";
+    public static final String METHOD_NOT_ALLOWED_MESSAGE = "Method not allowed. Allowed methods are: ";
+    public static final String NOTHING_NOT_FOUND_MESSAGE = "Nothing was found on the request";
 }
