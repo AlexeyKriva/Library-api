@@ -40,10 +40,10 @@ public class AuthenticationService {
     public JwtResponse getAccessToken(@NonNull String refreshToken) {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-            final String login = claims.getSubject();
-            final String saveRefreshToken = refreshStorage.get(login);
+            final String username = claims.getSubject();
+            final String saveRefreshToken = refreshStorage.get(username);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User user = userService.getByLogin(username)
                         .orElseThrow(() -> new AuthException(USER_NOT_FOUND_MESSAGE));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 return new JwtResponse(accessToken, null);
