@@ -6,6 +6,7 @@ import api.modsen.library.services.LibraryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,7 @@ public class LibraryController {
 
     @PatchMapping("/change-book-status/{bookId}")
     public ResponseEntity<BookStatus> changeBookStatusByBookId(@PathVariable("bookId") long bookId,
-                                                               @Valid
+                                                               @Validated
                                                                @RequestBody BookStatusDto bookStatusDto) {
         return ResponseEntity.ok(libraryService.changeBookStatus(bookId, bookStatusDto));
     }
