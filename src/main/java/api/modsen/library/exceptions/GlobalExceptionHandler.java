@@ -130,4 +130,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleSignatureException(SignatureException signatureException) {
         return new ResponseEntity<>(INVALID_JWT_SIGNATURE, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleAuthenticationException(AuthenticationException authenticationException) {
+        return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
