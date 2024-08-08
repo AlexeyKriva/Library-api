@@ -26,4 +26,8 @@ public class LibraryAppConstants {
     public static final int MIN_NUMBER_OF_DAYS_FOR_BORROWING = 1;
     public static final String RETURN_TIME_AFTER_BORROWED_TIME_MESSAGE = "The return time must be at least 1 day after the borrowing time.";
     public static final String NULL_TIME_MESSAGE = "Time cannot be null";
+    public static final String TOKEN_EXPIRED_MESSAGE = "Token expired";
+    public static final String UNSUPPORTED_JWT_TOKEN_MESSAGE = "Unsupported JWT token";
+    public static final String MALFORMED_JWT_TOKEN_MESSAGE = "Malformed JWT token";
+    public static final String INVALID_JWT_SIGNATURE = "Invalid JWT signature";
 }

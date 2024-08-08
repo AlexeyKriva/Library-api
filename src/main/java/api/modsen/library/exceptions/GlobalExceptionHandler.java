@@ -1,5 +1,9 @@
 package api.modsen.library.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+
 import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -13,10 +17,13 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 
+import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,5 +105,29 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException expiredJwtException) {
+        return new ResponseEntity<>(TOKEN_EXPIRED_MESSAGE, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<String> handleUnsupportedJwtException(UnsupportedJwtException unsupportedJwtException) {
+        return new ResponseEntity<>(UNSUPPORTED_JWT_TOKEN_MESSAGE, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException malformedJwtException) {
+        return new ResponseEntity<>(MALFORMED_JWT_TOKEN_MESSAGE, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<String> handleSignatureException(SignatureException signatureException) {
+        return new ResponseEntity<>(INVALID_JWT_SIGNATURE, HttpStatus.UNAUTHORIZED);
     }
 }
