@@ -24,7 +24,7 @@ public class AuthenticationService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    public JwtResponse login(@NonNull JwtRequest authRequest) {
+    public JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException{
         final User user = userService.getByLogin(authRequest.getUsername())
                 .orElseThrow(() -> new AuthException(USER_NOT_FOUND_MESSAGE));
         if (user.getPassword().equals(authRequest.getPassword())) {
@@ -37,7 +37,7 @@ public class AuthenticationService {
         }
     }
 
-    public JwtResponse getAccessToken(@NonNull String refreshToken) {
+    public JwtResponse getAccessToken(@NonNull String refreshToken) throws AuthException{
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             final String username = claims.getSubject();
@@ -52,7 +52,7 @@ public class AuthenticationService {
         return new JwtResponse(null, null);
     }
 
-    public JwtResponse refresh(@NonNull String refreshToken) {
+    public JwtResponse refresh(@NonNull String refreshToken) throws AuthException{
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             final String login = claims.getSubject();
