@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
-    public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+    public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException noHandlerFoundException) {
         return new ResponseEntity<>(NOTHING_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
     }
 
