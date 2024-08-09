@@ -33,7 +33,7 @@ public class AuthenticationService {
             refreshStorage.put(user.getUsername(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
-            throw new AuthException(INVALID_TOKEN_MESSAGE);
+            throw new AuthException(INVALID_TOKEN_OR_INCORRECT_PASSWORD_MESSAGE);
         }
     }
 
