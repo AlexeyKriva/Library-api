@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
+import jakarta.persistence.Access;
 import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 
+import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -135,5 +137,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<String> handleAuthenticationException(AuthenticationException authenticationException) {
         return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
+        return new ResponseEntity<>(DENIED_ACCESS_MESSAGE, HttpStatus.FORBIDDEN);
     }
 }
