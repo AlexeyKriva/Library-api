@@ -31,7 +31,7 @@ public class LibraryAppConstants {
     public static final String MALFORMED_JWT_TOKEN_MESSAGE = "Malformed JWT token.";
     public static final String INVALID_JWT_SIGNATURE = "Invalid JWT signature.";
     public static final String USER_NOT_FOUND_MESSAGE = "User not found.";
-    public static final String INVALID_ACCESS_TOKEN_MESSAGE = "Token invalid.";
+    public static final String INVALID_TOKEN_MESSAGE = "Token invalid.";
     public static final String BLANK_USERNAME_MESSAGE = "Username cannot be blank.";
     public static final String BLANK_PASSWORD_MESSAGE = "Password cannot be blank.";
     public static final String BLANK_REFRESH_TOKEN_MESSAGE = "Refresh token cannot be blank.";

@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 import jakarta.persistence.Access;
+import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -143,5 +144,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
         return new ResponseEntity<>(DENIED_ACCESS_MESSAGE, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleAuthException(AuthException authException) {
+        return new ResponseEntity<>(authException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
