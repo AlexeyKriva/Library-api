@@ -27,7 +27,7 @@ public class JwtProvider {
             @Value("${jwt.secret.access}") String jwtAccessSecret,
             @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
             @Value("${jwt.accessTokenDurationInMilliseconds}") long accessTokenDurationInMilliseconds,
-            @Value("${jwt.refreshTokenDurationInMilliseconds}") long refreshTokenDurationInMilliseconds
+            @Value("${jwt.refreshTokenDurationInDays}") long refreshTokenDurationInMilliseconds
     ) {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
