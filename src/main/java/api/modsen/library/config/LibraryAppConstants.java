@@ -11,6 +11,9 @@ public class LibraryAppConstants {
     public static final int MAX_LENGTH_OF_BOOK_TITLE = 50;
     public static final int MAX_LENGTH_OF_BOOK_DESCRIPTION = 1000;
     public static final int MAX_LENGTH_OF_BOOK_GENRE_AND_AUTHOR = 255;
+    public static final String MAX_LENGTH_OF_BOOK_TITLE_MESSAGE = "Size should be in the range 0 to 50.";
+    public static final String MAX_LENGTH_OF_BOOK_DESCRIPTION_MESSAGE = "Size should be in the range 0 to 1000.";
+    public static final String MAX_LENGTH_OF_BOOK_GENRE_AND_AUTHOR_MESSAGE = "Size should be in the range 0 to 255.";
     public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ID = "Book not found with id: ";
     public static final String BOOK_NOT_FOUND_MESSAGE_WITH_ISBN = "Book not found with isbn: ";
     public static final int MAX_NUMBER_OF_DAYS_BORROW_BOOK = 30;

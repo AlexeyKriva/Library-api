@@ -62,10 +62,10 @@ public class BookController {
 
     @DeleteMapping("/delete-book/by-isbn/{isbn}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Book> deleteBookByIsbn(@Valid
+    public ResponseEntity<Book> deleteBookByIsbn(@Pattern(regexp = ISBN_FORMAT,
+            message = INVALID_ISBN_MESSAGE) @Valid
                                                      @PathVariable("isbn")
-                                                     @Pattern(regexp = ISBN_FORMAT,
-                                                             message = INVALID_ISBN_MESSAGE) String isbn) {
+                                                      String isbn) {
         bookService.deleteBookByIsbn(isbn);
         return ResponseEntity.noContent().build();
     }

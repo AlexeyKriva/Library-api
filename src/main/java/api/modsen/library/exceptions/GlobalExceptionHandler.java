@@ -7,6 +7,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.persistence.Access;
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ValidationException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -28,7 +30,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static api.modsen.library.config.LibraryAppConstants.*;
@@ -104,6 +108,20 @@ public class GlobalExceptionHandler {
                     String field = ((FieldError) error).getField();
                     String message = error.getDefaultMessage();
                     errors.put(field, message);
+                }
+        );
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    @ResponseBody
+    public ResponseEntity<List<String>> handleHandlerMethodValidationException(HandlerMethodValidationException
+                                                                                             handlerMethodValidationException) {
+        List<String> errors = new ArrayList<>();
+        handlerMethodValidationException.getAllErrors().forEach((error) -> {
+                    String message = error.getDefaultMessage();
+                    errors.add(message);
                 }
         );
 
