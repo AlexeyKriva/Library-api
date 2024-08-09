@@ -42,5 +42,4 @@ public class AuthenticationController {
         final JwtResponse token = authenticationService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
-
 }

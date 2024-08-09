@@ -39,12 +39,14 @@ public class BookController {
     }
 
     @PostMapping("/add-book")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> addBook(@Valid
                                             @RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookService.addBook(bookDto));
     }
 
     @PatchMapping("/update-book/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> updateBookById(@PathVariable("id") long id,
                                                @Valid
                                                @RequestBody BookUpdateDescriptionDto bookUpdateDescriptionDto) {
@@ -52,12 +54,14 @@ public class BookController {
     }
 
     @DeleteMapping("/delete-book/by-id/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> deleteBookById(@PathVariable("id") long id) {
         bookService.deleteBookById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete-book/by-isbn/{isbn}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> deleteBookByIsbn(@Valid
                                                      @PathVariable("isbn")
                                                      @Pattern(regexp = ISBN_FORMAT,
