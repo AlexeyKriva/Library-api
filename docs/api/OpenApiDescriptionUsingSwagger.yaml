@@ -1,0 +1,785 @@
+openapi: 3.0.3
+info:
+  title: Library OpenAPI
+  description: This is a test project for the Modsen company. In it, I tried to demonstrate my knowledge of Java, Spring, Hibernate, and application protection using JWT-tokens. In this project, I developed a web-API to simulate the library.
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080/library
+    description: Dev server
+paths:
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      summary: Method for getting access and refresh tokens 
+      operationId: login
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtRequest"
+                
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsLogin"
+        '401':
+          description: Incorrect password
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Token invalid or incorrect password."
+        '404':
+          description: Noneexistent user
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "User not found"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [POST]"
+                
+  /authentication/token:
+    post:
+      tags:
+        - Authentication
+      summary: Method for refresh access token by refresh token 
+      operationId: getNewAccessToken
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshJwtRequest"
+                
+      responses:
+        '200':
+          description: Successful refresh access token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtResponseToken"
+        '400':
+          description: Validation failed or malformed JWT token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsToken"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [POST]"
+                
+  /authentication/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Method for refresh access and refresh tokens by refresh token 
+      operationId: getNewRefreshToken
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshJwtRequest"
+                
+      responses:
+        '200':
+          description: Successful refresh access and refresh tokens
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+        '400':
+          description: Validation failed or malformed JWT token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsToken"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [POST]"
+                
+  /all-books:
+    get:
+      tags:
+        - Books
+      summary: Method for get all books 
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: Successful find all books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Books"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /book/by-id/{id}:
+    get:
+      tags:
+        - Books
+      summary: Method for getting a book by id
+      operationId: getBookById
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Id that helps to find the needed book
+          
+      responses:
+        '200':
+          description: Successful find book by id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /book/by-isbn/{isbn}:
+    get:
+      tags:
+        - Books
+      summary: Method for getting a book by isbn
+      operationId: getBookByIsbn
+      parameters:
+        - name: isbn
+          in: path
+          schema:
+            type: string
+            example: "979-33333-323-123-9"
+          required: true
+          description: Isbn that helps to find the needed book
+          
+      responses:
+        '200':
+          description: Successful find book by isbn
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: isbn"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 979-33333-33-123-9"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /add-book:
+    post:
+      tags:
+        - Books
+      summary: Method for add new book
+      operationId: addBook
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookDto"
+          
+      responses:
+        '200':
+          description: Successful add new book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAddBook"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [POST]"
+                
+  /update-book/{id}:
+    patch:
+      tags:
+        - Books
+      summary: Method for update new book
+      operationId: updateBookById
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateDescription"
+          
+      responses:
+        '200':
+          description: Successful update new book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+                
+  /delete-book/by-id/{id}:
+    delete:
+      tags:
+        - Books
+      summary: Method for delete book by id
+      operationId: deleteBookById
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Id that helps to find the needed book
+          
+      responses:
+        '200':
+          description: Successful delete book by id
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [DELETE]"
+                
+  /delete-book/by-isbn/{isbn}:
+    delete:
+      tags:
+        - Books
+      summary: Method for getting a book by isbn
+      operationId: deleteBookByIsbn
+      parameters:
+        - name: isbn
+          in: path
+          schema:
+            type: string
+            example: "979-33333-323-123-9"
+          required: true
+          description: Isbn that helps to find the needed book
+          
+      responses:
+        '200':
+          description: Successful find book by isbn
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidIsbnFormat"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [DELETE]"
+                
+  /book-statuses:
+    get:
+      tags:
+        - Library
+      summary: Method for get all book statuses
+      operationId: getBookStatuses
+      responses:
+        '200':
+          description: Successful find all book statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookStatuses"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /available-books-statuses:
+    get:
+      tags:
+        - Library
+      summary: Method for get all available books statuses
+      operationId: getAvailableBooksStatuses
+      responses:
+        '200':
+          description: Successful find all book statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookStatuses"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /available-books-statuses/by-specified-time:
+    get:
+      tags:
+        - Library
+      summary: Method for get all available books statuses
+      operationId: getAvailableBooksStatusesBySpecifiedTime
+      parameters:
+        - name: specifiedTime
+          in: query
+          schema:
+            type: string
+            example: "2024-08-08T00:40:52.48618"
+          required: true
+          description: Time that helps to find the avalible books statuses
+      responses:
+        '200':
+          description: Successful find all book statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookStatuses"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: specifiedTime"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [GET]"
+                
+  /change-book-status/{bookId}:
+    patch:
+      tags:
+        - Library
+      summary: Method for update book statuse by id
+      operationId: changeBookStatusByBookId
+      parameters:
+        - name: bookId
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Id that helps to find the needed book status
+      responses:
+        '200':
+          description: Successful find all book statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookStatus"
+        '400':
+          description: Borrowed time cannot be in the future and retun time must be at least 1 day after the borrowing time
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookStatusTimeError"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [Patch]"          
+components:
+  schemas:
+    JwtRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "User1"
+        password:
+          type: string
+          example: "password1"
+          
+    JwtResponse:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        type:
+          type: string
+          example: "Bearer"
+        accessToken:
+          type: string
+          description: A token that identifies and authorizes a user
+          example: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w
+        refreshToken:
+          type: string
+          description: Token for refreshing access token
+          example: zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg
+    
+    ErrorsLogin:
+      type: object
+      description: "Map that contains invalid parameters"
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: "username"
+        value:
+          type: string
+          example: "Username cannot be blank."
+          
+    RefreshJwtRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        key:
+          type: string
+          example: "zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg"
+          
+    JwtResponseToken:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        type:
+          type: string
+          example: "Bearer"
+        accessToken:
+          type: string
+          description: A token that identifies and authorizes a user
+          example: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w
+        refreshToken:
+          type: string
+          description: Token for refreshing access token
+          example: null
+          
+    ErrorsToken:
+      type: object
+      description: "Map that contains invalid parameters"
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: "refreshToken"
+        value:
+          type: string
+          example: "Refresh token cannot be blank."
+          
+    Book:
+      type: object
+      description: "Book entity"
+      required:
+        - isbn
+        - title
+        - genre
+        - description
+        - author
+      properties:
+        id:
+          type: integer
+          description: "Primary key"
+          example: 1
+        isbn:
+          type: string
+          example: "979-33333-323-123-9"
+        title:
+          type: string
+          example: "title1"
+        genre:
+          type: string
+          example: "genre1"
+        description:
+          type: string
+          example: "description1"
+        author:
+          type: string
+          example: "author1"
+          
+    Books:
+      type: array
+      items:
+        $ref: "#/components/schemas/Book"
+        
+    BookDto:
+      type: object
+      description: "Book entity"
+      required:
+        - isbn
+        - title
+        - genre
+        - description
+        - author
+      properties:
+        isbn:
+          type: string
+          example: "979-33333-323-123-9"
+        title:
+          type: string
+          example: "title1"
+        genre:
+          type: string
+          example: "genre1"
+        description:
+          type: string
+          example: "description1"
+        author:
+          type: string
+          example: "author1"
+          
+    ErrorsAccess:
+      type: object
+      description: "No rights to access resource"
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: "message"
+        value:
+          type: string
+          example: "No rights to access resource"
+          
+    ErrorsAddBook:
+      type: object
+      description: "Map that contains invalid parameters"
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: "isbn"
+        value:
+          type: string
+          example: "Isbn cannot be blank or validation error."
+          
+    BookDtoUpdateDescription:
+      type: object
+      description: "Book update description entity"
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          example: "description1"
+    
+    InvalidIsbnFormat:
+      type: object
+      description: "Invalid isbn format"
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          example: "Invalid isbn format."
+          
+    BookStatus:
+      type: object
+      description: "Book status entity"
+      required:
+        - id
+        - book
+        - borrowedAt
+        - returnAt
+      properties:
+        id:
+          type: integer
+          description: "Primary key"
+          example: 1
+        book:
+          type: object
+          $ref: "#/components/schemas/Book"
+        borrowedAt:
+          type: string
+          example: "2024-08-08T00:40:52.48618"
+        returnAt:
+          type: string
+          example: "2024-08-21T00:40:52.48618"
+          
+    BookStatuses:
+      type: array
+      items:
+        $ref: "#/components/schemas/BookStatus"
+        
+    BookStatusDto:
+      type: object
+      description: "Book status dto entity"
+      required:
+        - borrowedAt
+        - returnAt
+      properties:
+        borrowedAt:
+          type: string
+          example: "2024-08-08T00:40:52.48618"
+        returnAt:
+          type: string
+          example: "2024-08-21T00:40:52.48618"
+          
+    BookStatusTimeError:
+      type: object
+      description: "Book status error"
+      required:
+        - borrowedAt
+        - returnTimeAtLeastOneDayAfterBorrowedTime
+      properties:
+        borrowedAt:
+          type: string
+          example: "Borrowed time cannot be in the future."
+        returnAt:
+          type: string
+          example: "The return time must be at least 1 day after the borrowing time."
