@@ -4,7 +4,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.security.auth.message.AuthException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -82,13 +81,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException noHandlerFoundException) {
         return new ResponseEntity<>(NOTHING_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseBody
-    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException
-                                                                        dataIntegrityViolationException) {
-        return new ResponseEntity<>(DATA_INTEGRITY_VIOLATION, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
