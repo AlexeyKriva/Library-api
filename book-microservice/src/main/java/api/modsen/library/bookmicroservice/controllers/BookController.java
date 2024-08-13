@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import static api.modsen.library.bookmicroservice.config.LibraryAppConstants.*;
 
@@ -39,14 +38,12 @@ public class BookController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> addBook(@Valid
                                             @RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookService.addBook(bookDto));
     }
 
     @PatchMapping("/{id}/description")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> updateBookById(@PathVariable("id") long id,
                                                @Valid
                                                @RequestBody BookUpdateDescriptionDto bookUpdateDescriptionDto) {
@@ -54,14 +51,12 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> deleteBookById(@PathVariable("id") long id) {
         bookService.deleteBookById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/isbn/{isbn}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> deleteBookByIsbn(@Pattern(regexp = ISBN_FORMAT,
             message = INVALID_ISBN_MESSAGE) @Valid
                                                      @PathVariable("isbn")

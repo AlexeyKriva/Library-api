@@ -6,7 +6,6 @@ import api.modsen.library.bookmicroservice.entities.library.BookStatus;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +36,6 @@ public class LibraryController {
     }
 
     @PatchMapping("/{bookId}/status")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BookStatus> changeBookStatusByBookId(@PathVariable("bookId") long bookId,
                                                                @Validated
                                                                @RequestBody BookStatusDto bookStatusDto) {
