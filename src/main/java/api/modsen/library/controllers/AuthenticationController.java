@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/library/authentication", produces = "application/json")
+@RequestMapping(value = "/auth", produces = "application/json")
 public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
@@ -27,7 +27,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/token")
+    @PostMapping("/refresh")
     public ResponseEntity<JwtResponse> getNewAccessToken(@Valid
                                                              @RequestBody RefreshJwtRequest request)
             throws AuthException {
@@ -35,7 +35,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/reissue")
     public ResponseEntity<JwtResponse> getNewRefreshToken(@Valid
                                                               @RequestBody RefreshJwtRequest request)
             throws AuthException {
