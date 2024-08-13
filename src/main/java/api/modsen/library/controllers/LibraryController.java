@@ -15,29 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/library", produces = "application/json")
+@RequestMapping(value = "/books", produces = "application/json")
 public class LibraryController {
     @Autowired
     private LibraryService libraryService;
 
-    @GetMapping("/book-statuses")
+    @GetMapping("/statuses")
     public ResponseEntity<List<BookStatus>> getBookStatuses() {
         return ResponseEntity.ok(libraryService.findAllBookStatuses());
     }
 
-    @GetMapping("/available-books-statuses")
+    @GetMapping("/available")
     public ResponseEntity<List<BookStatus>> getAvailableBooksStatuses() {
         return ResponseEntity.ok(libraryService.findAvailableBooks());
     }
 
-    @GetMapping("/available-books-statuses/by-specified-time")
+    @GetMapping("/available/by-time")
     public ResponseEntity<List<BookStatus>> getAvailableBooksStatusesBySpecifiedTime(@Valid
                                                                                         @RequestParam("specifiedTime")
                                                                                     LocalDateTime specifiedTime) {
         return ResponseEntity.ok(libraryService.findAvailableBooksBySpecifiedTime(specifiedTime));
     }
 
-    @PatchMapping("/change-book-status/{bookId}")
+    @PatchMapping("/{bookId}/status")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BookStatus> changeBookStatusByBookId(@PathVariable("bookId") long bookId,
                                                                @Validated
