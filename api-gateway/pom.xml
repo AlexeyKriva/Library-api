@@ -59,7 +59,6 @@
             <artifactId>netty-resolver-dns-native-macos</artifactId>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
     <build>
