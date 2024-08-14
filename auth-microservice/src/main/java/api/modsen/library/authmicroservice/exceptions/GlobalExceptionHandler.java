@@ -30,11 +30,6 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(BookNotFoundException.class)
-    @ResponseBody
-    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException bookNotFoundException) {
-        return new ResponseEntity<>(bookNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseBody
