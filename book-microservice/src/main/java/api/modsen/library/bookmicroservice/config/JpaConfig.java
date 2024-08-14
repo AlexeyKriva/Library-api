@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "api.modsen.library")
+@EnableJpaRepositories(basePackages = "api.modsen.library.bookmicroservice")
 public class JpaConfig {
     @Autowired
     private DataSource dataSource;
@@ -27,7 +27,7 @@ public class JpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setPackagesToScan("api.modsen.library.entities");
+        entityManagerFactoryBean.setPackagesToScan("api.modsen.library.bookmicroservice.entities");
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Map<String, Object> properties = new HashMap<>();
