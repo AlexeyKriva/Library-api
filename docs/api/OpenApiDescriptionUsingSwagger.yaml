@@ -4,10 +4,10 @@ info:
   description: This is a test project for the Modsen company. In it, I tried to demonstrate my knowledge of Java, Spring, Hibernate, and application protection using JWT-tokens. In this project, I developed a web-API to simulate the library.
   version: 1.0.0
 servers:
-  - url: https://localhost:8080/library
-    description: Dev server
+  - url: https://localhost:8765
+    description: Api gateway
 paths:
-  /authentication/login:
+  /auth/login:
     post:
       tags:
         - Authentication
@@ -54,8 +54,9 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [POST]"
-                
-  /authentication/token:
+
+
+  /auth/refresh:
     post:
       tags:
         - Authentication
@@ -88,8 +89,9 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [POST]"
-                
-  /authentication/refresh:
+
+
+  /auth/reissue:
     post:
       tags:
         - Authentication
@@ -122,8 +124,9 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [POST]"
-                
-  /all-books:
+
+
+  /books:
     get:
       tags:
         - Books
@@ -143,8 +146,48 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
-                
-  /book/by-id/{id}:
+
+    post:
+      tags:
+        - Books
+      summary: Method for add new book
+      operationId: addBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDto"
+
+      responses:
+        '200':
+          description: Successful add new book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAddBook"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [POST]"
+
+
+  /books/{id}:
     get:
       tags:
         - Books
@@ -187,8 +230,99 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
-                
-  /book/by-isbn/{isbn}:
+
+    patch:
+      tags:
+        - Books
+      summary: Method for update new book
+      operationId: updateBookById
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateDescription"
+
+      responses:
+        '200':
+          description: Successful update new book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+
+    delete:
+      tags:
+        - Books
+      summary: Method for delete book by id
+      operationId: deleteBookById
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Id that helps to find the needed book
+
+      responses:
+        '200':
+          description: Successful delete book by id
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [DELETE]"
+
+
+  /books/isbn/{isbn}:
     get:
       tags:
         - Books
@@ -231,140 +365,7 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
-                
-  /add-book:
-    post:
-      tags:
-        - Books
-      summary: Method for add new book
-      operationId: addBook
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BookDto"
-          
-      responses:
-        '200':
-          description: Successful add new book
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Book"
-        '400':
-          description: Invalid format for parameter.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorsAddBook"
-        '403':
-          description: No rights to access resource.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorsAccess"
-        '405':
-          description: Method not allowed
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Method not allowed. Allowed methods are: [POST]"
-                
-  /update-book/{id}:
-    patch:
-      tags:
-        - Books
-      summary: Method for update new book
-      operationId: updateBookById
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: integer
-            example: 1
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BookDtoUpdateDescription"
-          
-      responses:
-        '200':
-          description: Successful update new book
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Book"
-        '400':
-          description: Invalid format for parameter.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Invalid format for parameter: id"
-        '403':
-          description: No rights to access resource.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorsAccess"
-        '404':
-          description: Noneexistent book
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Book not found with id: 100"
-        '405':
-          description: Method not allowed
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Method not allowed. Allowed methods are: [PATCH]"
-                
-  /delete-book/by-id/{id}:
-    delete:
-      tags:
-        - Books
-      summary: Method for delete book by id
-      operationId: deleteBookById
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: integer
-            example: 1
-          required: true
-          description: Id that helps to find the needed book
-          
-      responses:
-        '200':
-          description: Successful delete book by id
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: ""
-        '403':
-          description: No rights to access resource.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorsAccess"
-        '405':
-          description: Method not allowed
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Method not allowed. Allowed methods are: [DELETE]"
-                
-  /delete-book/by-isbn/{isbn}:
+
     delete:
       tags:
         - Books
@@ -406,7 +407,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [DELETE]"
                 
-  /book-statuses:
+  /books/statuses:
     get:
       tags:
         - Library
@@ -427,7 +428,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /available-books-statuses:
+  /available:
     get:
       tags:
         - Library
@@ -448,7 +449,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /available-books-statuses/by-specified-time:
+  /available/by-time:
     get:
       tags:
         - Library
@@ -484,7 +485,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /change-book-status/{bookId}:
+  /{bookId}/status:
     patch:
       tags:
         - Library
