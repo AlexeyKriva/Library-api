@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    restart: always
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8761/eureka/" ]
+      interval: 10s
+      retries: 5
+      start_period: 15s
+      timeout: 10s
+    networks:
+      - app-network
+
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: library_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 98479847
+    ports:
+      - "33335:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 15s
+      timeout: 10s
+    networks:
+      - app-network
+
+  auth-microservice:
+    build:
+      context: ./auth-microservice
+      dockerfile: Dockerfile
+    restart: always
+    container_name: auth-microservice
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    ports:
+      - "33333:33333"
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:33333" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - app-network
+
+  book-microservice:
+    build:
+      context: ./book-microservice
+      dockerfile: Dockerfile
+    # restart: always
+    container_name: book-microservice
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    ports:
+      - "33334:33334"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 98479847
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:33334/" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - app-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    restart: always
+    container_name: api-gateway
+    depends_on:
+      auth-microservice:
+        condition: service_healthy
+      book-microservice:
+        condition: service_healthy
+    ports:
+      - "8765:8765"
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
