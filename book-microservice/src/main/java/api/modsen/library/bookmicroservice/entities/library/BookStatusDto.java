@@ -30,4 +30,20 @@ public class BookStatusDto {
         }
         return this.returnAt.isAfter(this.borrowedAt.plusDays(MIN_NUMBER_OF_DAYS_FOR_BORROWING));
     }
+
+    public LocalDateTime getBorrowedAt() {
+        return borrowedAt;
+    }
+
+    public LocalDateTime getReturnAt() {
+        return returnAt;
+    }
+
+    public void setBorrowedAt(LocalDateTime borrowedAt) {
+        this.borrowedAt = borrowedAt;
+    }
+
+    public void setReturnAt(LocalDateTime returnAt) {
+        this.returnAt = returnAt;
+    }
 }

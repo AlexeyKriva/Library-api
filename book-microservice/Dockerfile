@@ -1,6 +1,6 @@
 FROM maven:3.8.5-openjdk-17
 
-WORKDIR /auth
+WORKDIR /book
 
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
@@ -11,8 +11,10 @@ RUN mvn package -DskipTests
 
 FROM openjdk:17-jdk
 
-COPY /target/auth-microservice-3.3.2.jar /auth/launch-auth.jar
+COPY /target/book-microservice-0.0.1-SNAPSHOT.jar /book/launch-book.jar
 
-ENTRYPOINT ["java","-jar","/auth/launch-auth.jar"]
 
-EXPOSE 33333
+ENTRYPOINT ["java","-jar","/book/launch-book.jar"]
+
+
+EXPOSE 33334

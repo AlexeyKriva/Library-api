@@ -15,4 +15,12 @@ public class BookUpdateDescriptionDto {
     @NotBlank(message = BLANK_DESCRIPTION_MESSAGE)
     @Size(max = MAX_LENGTH_OF_BOOK_DESCRIPTION)
     private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

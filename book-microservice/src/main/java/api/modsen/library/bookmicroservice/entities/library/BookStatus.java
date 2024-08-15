@@ -27,4 +27,32 @@ public class BookStatus {
 
     @Column(name = "return_at")
     private LocalDateTime returnAt;
+
+    public long getId() {
+        return id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public LocalDateTime getBorrowedAt() {
+        return borrowedAt;
+    }
+
+    public LocalDateTime getReturnAt() {
+        return returnAt;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public void setBorrowedAt(LocalDateTime borrowedAt) {
+        this.borrowedAt = borrowedAt;
+    }
+
+    public void setReturnAt(LocalDateTime returnAt) {
+        this.returnAt = returnAt;
+    }
 }
