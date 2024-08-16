@@ -1,8 +1,8 @@
-package api.modsen.library.bookmicroservice.controllers;
+package api.modsen.library.librarymicroservice.controllers;
 
-import api.modsen.library.bookmicroservice.entities.library.BookStatusDto;
-import api.modsen.library.bookmicroservice.services.LibraryService;
-import api.modsen.library.bookmicroservice.entities.library.BookStatus;
+import api.modsen.library.librarymicroservice.entities.library.BookStatusDto;
+import api.modsen.library.librarymicroservice.services.LibraryService;
+import api.modsen.library.librarymicroservice.entities.library.BookStatus;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/books", produces = "application/json")
+@RequestMapping(value = "/library", produces = "application/json")
 public class LibraryController {
     @Autowired
     private LibraryService libraryService;

@@ -1,6 +1,5 @@
-package api.modsen.library.bookmicroservice.entities.library;
+package api.modsen.library.librarymicroservice.entities.library;
 
-import api.modsen.library.bookmicroservice.entities.book.Book;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

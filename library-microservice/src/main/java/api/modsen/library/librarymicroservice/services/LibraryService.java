@@ -1,12 +1,12 @@
-package api.modsen.library.bookmicroservice.services;
+package api.modsen.library.librarymicroservice.services;
 
 
-import api.modsen.library.bookmicroservice.entities.book.Book;
-import api.modsen.library.bookmicroservice.entities.library.BookStatus;
-import api.modsen.library.bookmicroservice.entities.library.BookStatusDto;
-import api.modsen.library.bookmicroservice.entities.library.BookStatusMapper;
-import api.modsen.library.bookmicroservice.exceptions.BookNotFoundException;
-import api.modsen.library.bookmicroservice.repositories.BookStatusRepository;
+import api.modsen.library.librarymicroservice.entities.library.Book;
+import api.modsen.library.librarymicroservice.entities.library.BookStatus;
+import api.modsen.library.librarymicroservice.entities.library.BookStatusDto;
+import api.modsen.library.librarymicroservice.entities.library.BookStatusMapper;
+import api.modsen.library.librarymicroservice.exceptions.BookNotFoundException;
+import api.modsen.library.librarymicroservice.repositories.BookStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 
-import static api.modsen.library.bookmicroservice.config.LibraryAppConstants.*;
+import static api.modsen.library.librarymicroservice.config.LibraryAppConstants.*;
 
 
 @Service

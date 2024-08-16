@@ -1,6 +1,6 @@
-package api.modsen.library.bookmicroservice.repositories;
+package api.modsen.library.librarymicroservice.repositories;
 
-import api.modsen.library.bookmicroservice.entities.library.BookStatus;
+import api.modsen.library.librarymicroservice.entities.library.BookStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

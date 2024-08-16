@@ -30,6 +30,7 @@
         <module>eureka-server</module>
         <module>book-microservice</module>
         <module>auth-microservice</module>
+        <module>library-microservice</module>
         <module>api-gateway</module>
     </modules>
 

@@ -1,5 +1,6 @@
-package api.modsen.library.bookmicroservice.entities.library;
+package api.modsen.library.librarymicroservice.entities.library;
 
+import api.modsen.library.librarymicroservice.config.LibraryAppConstants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -9,26 +10,26 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import static api.modsen.library.bookmicroservice.config.LibraryAppConstants.*;
+import static api.modsen.library.librarymicroservice.config.LibraryAppConstants.*;
 
 @Getter
 @Setter
 public class BookStatusDto {
     @JsonProperty("borrowedAt")
-    @PastOrPresent(message = BORROWED_TIME_IN_FUTURE_MESSAGE)
-    @NotNull(message = NULL_TIME_MESSAGE)
+    @PastOrPresent(message = LibraryAppConstants.BORROWED_TIME_IN_FUTURE_MESSAGE)
+    @NotNull(message = LibraryAppConstants.NULL_TIME_MESSAGE)
     private LocalDateTime borrowedAt;
 
     @JsonProperty("returnAt")
-    @NotNull(message = NULL_TIME_MESSAGE)
+    @NotNull(message = LibraryAppConstants.NULL_TIME_MESSAGE)
     private LocalDateTime returnAt;
 
-    @AssertTrue(message = RETURN_TIME_AFTER_BORROWED_TIME_MESSAGE)
+    @AssertTrue(message = LibraryAppConstants.RETURN_TIME_AFTER_BORROWED_TIME_MESSAGE)
     public boolean isReturnTimeAtLeastOneDayAfterBorrowedTime() {
         if (borrowedAt == null || returnAt == null) {
             return true;
         }
-        return this.returnAt.isAfter(this.borrowedAt.plusDays(MIN_NUMBER_OF_DAYS_FOR_BORROWING));
+        return this.returnAt.isAfter(this.borrowedAt.plusDays(LibraryAppConstants.MIN_NUMBER_OF_DAYS_FOR_BORROWING));
     }
 
     public LocalDateTime getBorrowedAt() {

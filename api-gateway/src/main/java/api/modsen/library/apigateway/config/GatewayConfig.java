@@ -12,10 +12,13 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("bookService", r -> r.path("/books/**")
-                        .filters(f -> f.filter(new AuthorizationHeaderFilter())) // использование фильтра
+                        .filters(f -> f.filter(new AuthorizationHeaderFilter()))
                         .uri("lb://book-microservice"))
                 .route("authService", r -> r.path("/auth/**")
                         .uri("lb://auth-microservice"))
+                .route("libraryService", r -> r.path("/library/**")
+                        .filters(f -> f.filter(new AuthorizationHeaderFilter()))
+                        .uri("lb://library-microservice"))
                 .build();
     }
 }
