@@ -1,0 +1,11 @@
+ALTER TABLE books
+ALTER COLUMN title SET DEFAULT "Unknown";
+
+ALTER TABLE books
+ALTER COLUMN genre SET DEFAULT "Unknown";
+
+ALTER TABLE books
+ALTER COLUMN description SET DEFAULT "Unknown";
+
+ALTER TABLE books
+ALTER COLUMN author SET DEFAULT "Unknown";

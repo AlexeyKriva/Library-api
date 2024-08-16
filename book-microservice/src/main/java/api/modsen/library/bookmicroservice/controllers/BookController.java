@@ -1,8 +1,6 @@
 package api.modsen.library.bookmicroservice.controllers;
 
-import api.modsen.library.bookmicroservice.entities.book.Book;
-import api.modsen.library.bookmicroservice.entities.book.BookDto;
-import api.modsen.library.bookmicroservice.entities.book.BookUpdateDescriptionDto;
+import api.modsen.library.bookmicroservice.entities.book.*;
 import api.modsen.library.bookmicroservice.services.BookService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -43,11 +41,46 @@ public class BookController {
         return ResponseEntity.ok(bookService.addBook(bookDto));
     }
 
-    @PatchMapping("/{id}/description")
+    @PutMapping("/{id}")
     public ResponseEntity<Book> updateBookById(@PathVariable("id") long id,
                                                @Valid
+                                               @RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookService.updateBook(id, bookDto));
+    }
+
+    @PatchMapping("/{id}/isbn")
+    public ResponseEntity<Book> updateBookIsbnById(@PathVariable("id") long id,
+                                                    @Valid
+                                                    @RequestBody BookUpdateIsbnDto bookUpdateIsbnDto) {
+        return ResponseEntity.ok(bookService.updateBookIsbn(id, bookUpdateIsbnDto));
+    }
+
+    @PatchMapping("/{id}/title")
+    public ResponseEntity<Book> updateBookTitleById(@PathVariable("id") long id,
+                                                    @Valid
+                                                    @RequestBody BookUpdateTitleDto bookUpdateTitleDto) {
+        return ResponseEntity.ok(bookService.updateBookTitle(id, bookUpdateTitleDto));
+    }
+
+    @PatchMapping("/{id}/genre")
+    public ResponseEntity<Book> updateBookGenreById(@PathVariable("id") long id,
+                                                    @Valid
+                                                    @RequestBody BookUpdateGenreDto bookUpdateGenreDto) {
+        return ResponseEntity.ok(bookService.updateBookGenre(id, bookUpdateGenreDto));
+    }
+
+    @PatchMapping("/{id}/description")
+    public ResponseEntity<Book> updateBookDescriptionById(@PathVariable("id") long id,
+                                               @Valid
                                                @RequestBody BookUpdateDescriptionDto bookUpdateDescriptionDto) {
-        return ResponseEntity.ok(bookService.updateGenreAndDescription(id, bookUpdateDescriptionDto));
+        return ResponseEntity.ok(bookService.updateBookDescription(id, bookUpdateDescriptionDto));
+    }
+
+    @PatchMapping("/{id}/author")
+    public ResponseEntity<Book> updateBookAuthorById(@PathVariable("id") long id,
+                                                     @Valid
+                                                     @RequestBody BookUpdateAuthorDto bookUpdateAuthorDto) {
+        return ResponseEntity.ok(bookService.updateBookAuthor(id, bookUpdateAuthorDto));
     }
 
     @DeleteMapping("/{id}")

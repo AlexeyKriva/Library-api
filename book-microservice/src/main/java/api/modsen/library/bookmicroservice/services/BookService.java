@@ -1,9 +1,6 @@
 package api.modsen.library.bookmicroservice.services;
 
-import api.modsen.library.bookmicroservice.entities.book.Book;
-import api.modsen.library.bookmicroservice.entities.book.BookDto;
-import api.modsen.library.bookmicroservice.entities.book.BookMapper;
-import api.modsen.library.bookmicroservice.entities.book.BookUpdateDescriptionDto;
+import api.modsen.library.bookmicroservice.entities.book.*;
 import api.modsen.library.bookmicroservice.repositories.BookRepository;
 import api.modsen.library.bookmicroservice.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +53,71 @@ public class BookService {
         }
     }
 
-    public Book updateGenreAndDescription(long id, BookUpdateDescriptionDto bookUpdateInformationDto) {
+    public Book updateBook(long id, BookDto bookDto) {
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            Book updatingBook = bookFromDb.get();
+            BOOK_MAPPER.updateBookFromBookDto(bookDto, updatingBook);
+
+            return bookRepository.save(updatingBook);
+        }
+
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
+    }
+
+    public Book updateBookIsbn(long id, BookUpdateIsbnDto bookUpdateIsbnDto) {
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            Book updatingBook = bookFromDb.get();
+            updatingBook.setIsbn(bookUpdateIsbnDto.getIsbn());
+
+            return bookRepository.save(updatingBook);
+        }
+
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
+    }
+
+    public Book updateBookTitle(long id, BookUpdateTitleDto bookUpdateTitleDto) {
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            Book updatingBook = bookFromDb.get();
+            updatingBook.setTitle(bookUpdateTitleDto.getTitle());
+
+            return bookRepository.save(updatingBook);
+        }
+
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
+    }
+
+    public Book updateBookGenre(long id, BookUpdateGenreDto bookUpdateGenreDto) {
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            Book updatingBook = bookFromDb.get();
+            updatingBook.setGenre(bookUpdateGenreDto.getGenre());
+
+            return bookRepository.save(updatingBook);
+        }
+
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
+    }
+
+    public Book updateBookDescription(long id, BookUpdateDescriptionDto bookUpdateInformationDto) {
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isPresent()) {
             Book updatingBook = bookFromDb.get();
             updatingBook.setDescription(bookUpdateInformationDto.getDescription());
+
+            return bookRepository.save(updatingBook);
+        }
+
+        return bookFromDb.orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ID + id));
+    }
+
+    public Book updateBookAuthor(long id, BookUpdateAuthorDto bookUpdateAuthorDto) {
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            Book updatingBook = bookFromDb.get();
+            updatingBook.setAuthor(bookUpdateAuthorDto.getAuthor());
 
             return bookRepository.save(updatingBook);
         }
