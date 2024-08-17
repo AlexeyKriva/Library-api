@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Library OpenAPI
   description: This is a test project for the Modsen company. In it, I tried to demonstrate my knowledge of Java, Spring, Hibernate, and application protection using JWT-tokens. In this project, I developed a web-API to simulate the library.
-  version: 1.0.0
+  version: 1.0.3
 servers:
   - url: https://localhost:8765
     description: Api gateway
