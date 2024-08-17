@@ -231,10 +231,10 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
 
-    patch:
+    put:
       tags:
         - Books
-      summary: Method for update new book
+      summary: Method for update book
       operationId: updateBookById
       parameters:
         - name: id
@@ -248,11 +248,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BookDtoUpdateDescription"
+              $ref: "#/components/schemas/BookDto"
 
       responses:
         '200':
-          description: Successful update new book
+          description: Successful update book
           content:
             application/json:
               schema:
@@ -283,7 +283,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "Method not allowed. Allowed methods are: [PATCH]"
+                example: "Method not allowed. Allowed methods are: [PUT]"
 
     delete:
       tags:
@@ -320,6 +320,251 @@ paths:
               schema:
                 type: string
                 example: "Method not allowed. Allowed methods are: [DELETE]"
+
+
+  /books/{id}/isbn:
+    patch:
+      tags:
+        - Books
+      summary: Method for update book's isbn
+      operationId: updateBookIsbnById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateIsbn"
+
+      responses:
+        '200':
+          description: Successful update isbn book's parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+
+
+  /books/{id}/title:
+    patch:
+      tags:
+        - Books
+      summary: Method for update book's title
+      operationId: updateBookTitleById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateTitle"
+
+      responses:
+        '200':
+          description: Successful update title book's parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+
+
+  /books/{id}/genre:
+    patch:
+      tags:
+        - Books
+      summary: Method for update book's genre
+      operationId: updateBookGenreById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateGenre"
+
+      responses:
+        '200':
+          description: Successful update genre book's parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+
+
+  /books/{id}/description:
+    patch:
+      tags:
+        - Books
+      summary: Method for update book's description
+      operationId: updateBookDescriptionById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateDescription"
+
+      responses:
+        '200':
+          description: Successful update description book's parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
+
+
+  /books/{id}/author:
+    patch:
+      tags:
+        - Books
+      summary: Method for update book's author
+      operationId: updateBookAuthorById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDtoUpdateAuthor"
+
+      responses:
+        '200':
+          description: Successful update author book's parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Invalid format for parameter.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid format for parameter: id"
+        '403':
+          description: No rights to access resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorsAccess"
+        '404':
+          description: Noneexistent book
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Book not found with id: 100"
+        '405':
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed. Allowed methods are: [PATCH]"
 
 
   /books/isbn/{isbn}:
@@ -407,7 +652,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [DELETE]"
                 
-  /books/statuses:
+  /library/statuses:
     get:
       tags:
         - Library
@@ -428,7 +673,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /available:
+  /library/available:
     get:
       tags:
         - Library
@@ -449,7 +694,7 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /available/by-time:
+  /library/available/by-time:
     get:
       tags:
         - Library
@@ -485,11 +730,11 @@ paths:
                 type: string
                 example: "Method not allowed. Allowed methods are: [GET]"
                 
-  /{bookId}/status:
+  /library/{bookId}/status:
     patch:
       tags:
         - Library
-      summary: Method for update book statuse by id
+      summary: Method for update book status by id
       operationId: changeBookStatusByBookId
       parameters:
         - name: bookId
@@ -708,6 +953,36 @@ components:
         value:
           type: string
           example: "Isbn cannot be blank or validation error."
+
+    BookDtoUpdateIsbn:
+      type: object
+      description: "Book update isbn entity"
+      required:
+        - isbn
+      properties:
+        description:
+          type: string
+          example: "979-12-1-1-1"
+
+    BookDtoUpdateTitle:
+      type: object
+      description: "Book update title entity"
+      required:
+        - title
+      properties:
+        description:
+          type: string
+          example: "title1"
+
+    BookDtoUpdateGenre:
+      type: object
+      description: "Book update genre entity"
+      required:
+        - genre
+      properties:
+        description:
+          type: string
+          example: "genre1"
           
     BookDtoUpdateDescription:
       type: object
@@ -718,6 +993,16 @@ components:
         description:
           type: string
           example: "description1"
+
+    BookDtoUpdateAuthor:
+      type: object
+      description: "Book update author entity"
+      required:
+        - author
+      properties:
+        description:
+          type: string
+          example: "author1"
     
     InvalidIsbnFormat:
       type: object
