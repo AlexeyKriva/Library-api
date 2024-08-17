@@ -27,9 +27,6 @@ public class LibraryController {
 
     @PostMapping("/status")
     public ResponseEntity<String> addBookStatus(@Valid @RequestBody Book book) {
-        System.out.println("======================================================");
-        System.out.println(book);
-        System.out.println("======================================================");
         libraryService.addBookStatus(book);
         return ResponseEntity.ok("Book status successfully added");
     }

@@ -15,7 +15,6 @@ import static api.modsen.library.bookmicroservice.config.LibraryAppConstants.BOO
 import static api.modsen.library.bookmicroservice.config.LibraryAppConstants.BOOK_NOT_FOUND_MESSAGE_WITH_ISBN;
 
 @Service
-@Transactional
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
@@ -38,7 +37,7 @@ public class BookService {
     public Book addBookAndBookStatus(BookDto bookDto) {
         Book bookFromDb = addBook(bookDto);
         if (bookRepository.existsById(bookFromDb.getId())) {
-            //libraryClient.addBookStatus(bookFromDb);
+            libraryClient.addBookStatus(bookFromDb);
         }
         return bookFromDb;
     }
