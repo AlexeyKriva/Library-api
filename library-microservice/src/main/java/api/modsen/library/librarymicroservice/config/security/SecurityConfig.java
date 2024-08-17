@@ -26,8 +26,8 @@ public class SecurityConfig {
                         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authz -> authz
-                                .requestMatchers("/library/statuses").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/library/statuses", "/library/status").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling

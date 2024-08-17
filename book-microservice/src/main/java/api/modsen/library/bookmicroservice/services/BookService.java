@@ -1,5 +1,6 @@
 package api.modsen.library.bookmicroservice.services;
 
+import api.modsen.library.bookmicroservice.clients.LibraryClient;
 import api.modsen.library.bookmicroservice.entities.book.*;
 import api.modsen.library.bookmicroservice.repositories.BookRepository;
 import api.modsen.library.bookmicroservice.exceptions.BookNotFoundException;
@@ -20,7 +21,7 @@ public class BookService {
     private BookRepository bookRepository;
     private static final BookMapper BOOK_MAPPER = BookMapper.INSTANCE;
     @Autowired
-    private LibraryService libraryService;
+    private LibraryClient libraryClient;
 
     public List<Book> findAllBooks() {
         return bookRepository.findAll();
@@ -34,11 +35,19 @@ public class BookService {
         return bookRepository.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND_MESSAGE_WITH_ISBN + isbn));
     }
 
+    public Book addBookAndBookStatus(BookDto bookDto) {
+        Book bookFromDb = addBook(bookDto);
+        if (bookRepository.existsById(bookFromDb.getId())) {
+            //libraryClient.addBookStatus(bookFromDb);
+        }
+        return bookFromDb;
+    }
+
+    @Transactional
     public Book addBook(BookDto bookDto) {
         Book newBook = BOOK_MAPPER.fromBookDtoToBook(bookDto);
-        Book bookFromDb = bookRepository.save(newBook);
-        libraryService.addBookStatus(bookFromDb);
-        return bookFromDb;
+
+        return bookRepository.save(newBook);
     }
 
     public void deleteBookByIsbn(String isbn) {

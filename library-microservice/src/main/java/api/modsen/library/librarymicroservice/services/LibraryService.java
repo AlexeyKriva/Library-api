@@ -31,21 +31,17 @@ public class LibraryService {
     public List<BookStatus> findAllBookStatuses() {
         return bookStatusRepository.findAll();
     }
-    @Async
     public CompletableFuture<BookStatus> addBookStatus(Book book) {
         LocalDateTime borrowAt = LocalDateTime.now();
         LocalDateTime returnAt = generateRandomReturnTime(borrowAt);
-
 
         BookStatus bookStatus = new BookStatus();
         bookStatus.setBook(book);
         bookStatus.setBorrowedAt(borrowAt);
         bookStatus.setReturnAt(returnAt);
 
-
         return CompletableFuture.completedFuture(bookStatusRepository.save(bookStatus));
     }
-
 
     private LocalDateTime generateRandomReturnTime(LocalDateTime borrowAt) {
         Random random = new Random();
