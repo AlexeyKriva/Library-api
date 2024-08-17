@@ -13,13 +13,15 @@ From the project root directory, run the following:
 2) Package project:
    'mvn package'
 3) Launch the eureka server:
-   'java -jar eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar'
+   'java -jar eureka-server/target/eureka-server-3.3.2.jar'
 4) Launch the auth microservice:
-   'java -jar auth-microservice/target/auth-microservice-0.0.1-SNAPSHOT.jar'
-5) Launch the book microservice:
+   'java -jar auth-microservice/target/auth-microservice-3.3.2.jar'
+5) Launch the library microservice:
+   'java -jar library-microservice/target/library-microservice-0.0.1-SNAPSHOT.jar'
+6) Launch the book microservice:
    'java -jar book-microservice/target/book-microservice-0.0.1-SNAPSHOT.jar'
-6) Launch the api gateway:
-   'java -jar api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar'
+7) Launch the api gateway:
+   'java -jar api-gateway/target/api-gateway-3.3.2.jar'
 
 ## Instructions for launching the project from the docker-compose
 
